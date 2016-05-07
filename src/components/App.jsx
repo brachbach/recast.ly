@@ -16,10 +16,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    console.log(this.props.apiKey);
+    this.search();
+  }
+
+  search(query = 'blackfish') {
     this.props.searchYouTube({
       key: this.props.apiKey,
-      query: 'wins',
+      query,
       max: 5
     }, result => {
       this.setState({
@@ -38,7 +41,7 @@ class App extends React.Component {
   render() {
     return (
       <div>
-        <Nav />
+        <Nav onSearchChange={_.debounce(this.search, 500).bind(this)} />
         <div className="col-md-7">
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
