@@ -5,7 +5,8 @@ var searchYouTube = (options, callback) => {
     key: options.key,
     q: options.query,
     maxResults: options.max,
-    part: 'snippet'
+    part: 'snippet',
+    type: 'video'
   }, result => { console.log(result.items); console.log(exampleVideoData); callback(result.items); }, 'json');
 };
 
