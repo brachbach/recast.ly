@@ -2,8 +2,31 @@ class App extends React.Component {
   constructor(props) { // <App videos={videos} /> -> new App({videos: videos})
     super(props);
     this.state = {
-      currentVideo: exampleVideoData[0]
+      currentVideo: {
+        id: {
+          videoId: ''
+        },
+        snippet: {
+          title: '',
+          description: ''
+        }
+      },
+      videos: []
     };
+  }
+
+  componentDidMount() {
+    console.log(this.props.apiKey);
+    this.props.searchYouTube({
+      key: this.props.apiKey,
+      query: 'wins',
+      max: 5
+    }, result => {
+      this.setState({
+        currentVideo: result[0],
+        videos: result
+      });
+    });
   }
 
   handleVideoListEntryClick(video) {
@@ -20,7 +43,7 @@ class App extends React.Component {
           <VideoPlayer video={this.state.currentVideo}/>
         </div>
         <div className="col-md-5">
-          <VideoList onVideoListEntryClick={this.handleVideoListEntryClick.bind(this)} videos={exampleVideoData}/>
+          <VideoList onVideoListEntryClick={this.handleVideoListEntryClick.bind(this)} videos={this.state.videos}/>
         </div>
       </div>
     );
